@@ -9,6 +9,7 @@ import api from 'api/openapi';
 
 const PromptContainer = () => {
   const [ textprompt, setTextPrompt ] = useState('');
+
   const [ responses, setResponses ] = useState([
     { id: 1, textprompt: 'here is the prompt', response: 'here is the response' },
     { id: 2, textprompt: 'here is the prompt', response: 'here is the response' }
@@ -18,45 +19,44 @@ const PromptContainer = () => {
     event.preventDefault();
     const lastItem = responses[responses.length - 1];
 
-    setResponses(prev => {
-      const newArr = [ ...prev, { id: lastItem.id + 1, textprompt, response: 'here is a response' } ];
-      return newArr;
-    });
 
-    setTextPrompt('');
+    async function sendAPI(bookTitle){
+      try {
 
-  //   async function sendAPI(){
-  //     try {
-  //
-  //       const response = await api.createCompletion("text-davinci-002", {
-  //         prompt: "Dani is a chatbot who is having a bad day and complains with every request\nYou: hey Dani, can you tell me the weather?\nDani: Yea, I guess. Can't you just look outside? Why do you have to ask me? It's sunny by the way. Jeez.\nYou: Okay, well can you tell me what time it is?\nDani: ",
-  //         temperature: 0.8,
-  //         max_tokens: 60,
-  //         top_p: 1.0,
-  //         frequency_penalty: 0,
-  //         presence_penalty: 0,
-  //         stop: [ "\n" ]
-  //       });
-  //
-  //       // setResponses(prev => prev.push( response ));
-  //
-  //       console.log(response);
-  //       return response;
-  //
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //
-  //   sendAPI();
-  //
+        const response = await api.createCompletion("text-davinci-002", {
+          prompt: "return an emoji for the book title : \n" + bookTitle + "\n",
+        });
+
+        if (response.data.choices.length > 0) setResponses(prev => {
+          return [
+            ...prev, 
+            {
+              id: lastItem.id + 1, 
+              textprompt, 
+              response: response.data.choices[0].text.replace("\n", "")
+            }
+          ];
+        });
+
+        setTextPrompt('');
+        // setLatestData(response);
+
+        console.log(response);
+        return response;
+
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    sendAPI(textprompt);
+
 
   }
 
   const handleChange = (event) => {
     setTextPrompt(event.target.value);
   }
-
 
   return (
     <Container>
@@ -77,7 +77,9 @@ const PromptContainer = () => {
       </div>
 
     </Container>
-  ); }
+  );
+
+}
 
 
 
