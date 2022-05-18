@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import ResponseCard from 'components/ResponseCard';
 import api from 'api/openapi';
+import emoji from 'api/emoji';
 
 
 
@@ -33,7 +34,7 @@ const PromptContainer = () => {
             {
               id: lastItem.id + 1, 
               textprompt, 
-              response: response.data.choices[0].text.replace("\n", "")
+              response: emoji.replace_colons(response.data.choices[0].text.replace("\n", ""))
             }
           ];
         });
