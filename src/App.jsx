@@ -17,7 +17,7 @@ function App() {
         <h1>Fun with AI</h1>
         <button><i className="angle down icon" onClick={() => executeScroll()}></i></button>
       </header>
-      <div className="section2" ref={ref}>
+      <div className="prompt-container" ref={ref}>
         <PromptContainer />
       </div>
     </Container>
@@ -70,7 +70,7 @@ const Container = styled.div`
     }
   }
 
-  .section2 {
+  .prompt-container {
     height: 100vh;
     width: 100%;
   }
