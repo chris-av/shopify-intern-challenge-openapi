@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import styled from 'styled-components';
 import LogoAnimation from 'components/LogoAnimation';
-import PromptContainer from 'components/PromptContainer';
+import Prompt from 'components/Prompt';
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
         <button><i className="angle down icon" onClick={() => executeScroll()}></i></button>
       </header>
       <div className="prompt-container" ref={ref}>
-        <PromptContainer />
+        <Prompt />
       </div>
     </Container>
   );
